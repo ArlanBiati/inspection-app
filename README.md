@@ -11,7 +11,7 @@ Aplicativo desenvolvido usando as tecnologias:
 - React Query
 - Clerk
 
-[## Video do App ##](documentation/Kapture%202024-11-16%20at%2016.10.34.mp4)
+https://github.com/user-attachments/assets/226101b5-a50e-4fcb-b50d-0394123dc3e2
 
 
 ## Instalação
