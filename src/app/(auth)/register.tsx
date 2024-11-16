@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Link } from 'expo-router'
+import { Link, router } from 'expo-router'
 import { useSignUp } from '@clerk/clerk-expo'
 import { Text, type TextInput, TouchableOpacity, View } from 'react-native'
 import { useForm } from 'react-hook-form'
@@ -54,14 +54,14 @@ export default function Register() {
       })
 
       await setActive({ session: completeSignUp.createdSessionId })
+
+      router.push('/(tabs)/home')
     } catch (error: any) {
       alert(error.errors[0].message)
     } finally {
       setIsLoading(false)
     }
   }
-
-  console.log(errors)
 
   return (
     <View className="flex-1 justify-center p-5">
