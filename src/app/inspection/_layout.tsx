@@ -7,7 +7,7 @@ export default function InspectionLayout() {
     <Stack
       screenOptions={{
         headerStyle: { backgroundColor: 'black' },
-        headerTintColor: '#fff',
+        headerTintColor: '#fff'
       }}
     >
       <Stack.Screen
@@ -20,7 +20,7 @@ export default function InspectionLayout() {
                 <Feather name="arrow-left" size={24} color="white" />
               </TouchableOpacity>
             </Link>
-          ),
+          )
         }}
       />
     </Stack>

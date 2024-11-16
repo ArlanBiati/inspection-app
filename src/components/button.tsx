@@ -1,10 +1,4 @@
-import {
-  ActivityIndicator,
-  Text,
-  TouchableOpacity,
-  TouchableOpacityProps,
-} from 'react-native'
-
+import { ActivityIndicator, Text, TouchableOpacity, type TouchableOpacityProps } from 'react-native'
 import { clsx } from 'clsx'
 
 interface ButtonProps extends TouchableOpacityProps {
@@ -27,7 +21,7 @@ export default function Button({
     <TouchableOpacity
       {...rest}
       className={clsx('rounded-lg py-5 px-5 items-center', backgroundColor, {
-        'opacity-70': disabled,
+        'opacity-70': disabled
       })}
       activeOpacity={0.6}
     >

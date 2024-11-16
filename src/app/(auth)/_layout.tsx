@@ -5,20 +5,20 @@ export default function PublcLayout() {
     <Stack
       screenOptions={{
         headerStyle: { backgroundColor: 'black' },
-        headerTintColor: '#fff',
+        headerTintColor: '#fff'
       }}
     >
       <Stack.Screen
         name="login"
         options={{
-          headerShown: false,
+          headerShown: false
         }}
       />
 
       <Stack.Screen
         name="register"
         options={{
-          headerTitle: 'Criar conta',
+          headerTitle: 'Criar conta'
         }}
       />
     </Stack>

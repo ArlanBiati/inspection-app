@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react'
 import { Link } from 'expo-router'
 import { useSignUp } from '@clerk/clerk-expo'
-import { Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Text, type TextInput, TouchableOpacity, View } from 'react-native'
+import { useForm } from 'react-hook-form'
 
 import Button from '@/components/button'
 import Input from '@/components/input'
 import InputPassword from '@/components/input-password'
-import { useForm } from 'react-hook-form'
 
 export default function Register() {
   const { isLoaded, setActive, signUp } = useSignUp()
@@ -14,7 +14,7 @@ export default function Register() {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm()
   const lastNameRef = useRef<TextInput>(null)
   const emailRef = useRef<TextInput>(null)
@@ -32,7 +32,7 @@ export default function Register() {
         firstName,
         lastName,
         emailAddress: email,
-        password,
+        password
       })
       await signUp.prepareEmailAddressVerification({ strategy: 'email_code' })
 
@@ -50,7 +50,7 @@ export default function Register() {
 
     try {
       const completeSignUp = await signUp?.attemptEmailAddressVerification({
-        code,
+        code
       })
 
       await setActive({ session: completeSignUp.createdSessionId })
@@ -67,22 +67,20 @@ export default function Register() {
     <View className="flex-1 justify-center p-5">
       {!pendingEmailCode && (
         <View>
-          <Text className="text-center font-bold text-2xl mb-4">
-            Criar uma conta
-          </Text>
+          <Text className="text-center font-bold text-2xl mb-4">Criar uma conta</Text>
           <View className="gap-4 my-4">
             <Input
               icon="user"
               error={errors.firstName?.message}
               formProps={{
                 name: 'firstName',
-                control,
+                control
               }}
               inputProps={{
                 autoCapitalize: 'none',
                 placeholder: 'Digite seu primeiro nome',
                 returnKeyType: 'next',
-                onSubmitEditing: () => lastNameRef.current?.focus(),
+                onSubmitEditing: () => lastNameRef.current?.focus()
               }}
             />
             <Input
@@ -91,13 +89,13 @@ export default function Register() {
               error={errors.lastName?.message}
               formProps={{
                 name: 'lastName',
-                control,
+                control
               }}
               inputProps={{
                 autoCapitalize: 'none',
                 placeholder: 'Digite seu sobrenome',
                 returnKeyType: 'next',
-                onSubmitEditing: () => emailRef.current?.focus(),
+                onSubmitEditing: () => emailRef.current?.focus()
               }}
             />
             <Input
@@ -111,15 +109,15 @@ export default function Register() {
                   required: 'Email é obrigatório',
                   pattern: {
                     value: /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+$/,
-                    message: 'Email inválido',
-                  },
-                },
+                    message: 'Email inválido'
+                  }
+                }
               }}
               inputProps={{
                 autoCapitalize: 'none',
                 placeholder: 'Digite seu email',
                 returnKeyType: 'next',
-                onSubmitEditing: () => passwordRef.current?.focus(),
+                onSubmitEditing: () => passwordRef.current?.focus()
               }}
             />
             <InputPassword
@@ -129,29 +127,23 @@ export default function Register() {
               formProps={{
                 name: 'password',
                 control,
-                rules: { required: 'Senha é obrigatório' },
+                rules: { required: 'Senha é obrigatório' }
               }}
               inputProps={{
                 autoCapitalize: 'none',
                 placeholder: 'Digite sua senha',
                 returnKeyType: 'send',
                 secureTextEntry: true,
-                onSubmitEditing: handleSubmit(handleSignUp),
+                onSubmitEditing: handleSubmit(handleSignUp)
               }}
             />
           </View>
-          <Button
-            title="Criar conta"
-            loading={isLoading}
-            disabled={isLoading}
-            onPress={handleSubmit(handleSignUp)}
-          />
+          <Button title="Criar conta" loading={isLoading} disabled={isLoading} onPress={handleSubmit(handleSignUp)} />
 
           <Link href="/login" asChild>
             <TouchableOpacity className="m-2 items-center" activeOpacity={0.5}>
               <Text className="color-slate-500">
-                Já possui uma conta?{' '}
-                <Text className="color-black font-bold">Acesse!</Text>
+                Já possui uma conta? <Text className="color-black font-bold">Acesse!</Text>
               </Text>
             </TouchableOpacity>
           </Link>
@@ -160,9 +152,7 @@ export default function Register() {
 
       {pendingEmailCode && (
         <View>
-          <Text className="text-center font-bold text-2xl mb-4">
-            Digite o código:
-          </Text>
+          <Text className="text-center font-bold text-2xl mb-4">Digite o código:</Text>
           <View className="gap-6">
             <Input
               icon="key"
@@ -170,13 +160,13 @@ export default function Register() {
               formProps={{
                 name: 'code',
                 control,
-                rules: { required: 'O código é obrigatório' },
+                rules: { required: 'O código é obrigatório' }
               }}
               inputProps={{
                 autoCapitalize: 'none',
                 placeholder: 'Digite seu código',
                 returnKeyType: 'send',
-                onSubmitEditing: handleSubmit(handleVerifyUser),
+                onSubmitEditing: handleSubmit(handleVerifyUser)
               }}
             />
             <Button

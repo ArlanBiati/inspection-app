@@ -1,24 +1,25 @@
-import SearchBar from '@/components/search-bar'
 import { useQuery } from '@tanstack/react-query'
 import { FlatList, RefreshControl, Text, View } from 'react-native'
 import { useEffect, useState } from 'react'
-import { InspectionsService } from '@/services/inspections.service'
-import { InspectionsProps } from '@/types/inspections.type'
 import { format } from 'date-fns'
+import { Link } from 'expo-router'
+
+import SearchBar from '@/components/search-bar'
+import { InspectionsService } from '@/services/inspections.service'
+import { type InspectionsProps } from '@/types/inspections.type'
 import IconButton from '@/components/icon-button'
 import Card from '@/components/card'
-import { Link } from 'expo-router'
 
 export default function Inspection() {
   const inspectionsService = new InspectionsService()
   const {
     data: inspections,
     isRefetching,
-    refetch,
+    refetch
   } = useQuery({
     queryKey: ['inspections-list'],
     queryFn: () => inspectionsService.findAllInspections(),
-    refetchInterval: 1000,
+    refetchInterval: 1000
   })
 
   const filteredInspectionsWithAllData = inspections
@@ -31,9 +32,7 @@ export default function Inspection() {
       return dateB.getTime() - dateA.getTime()
     })
 
-  const [filteredInspections, setFilteredInspections] = useState<
-    InspectionsProps[]
-  >([])
+  const [filteredInspections, setFilteredInspections] = useState<InspectionsProps[]>([])
 
   const handleSearch = (query: string) => {
     if (query === '') {
@@ -63,17 +62,13 @@ export default function Inspection() {
           </View>
           <View className="flex-row">
             <Text className="text-lg">Data: </Text>
-            <Text className="text-lg font-bold">
-              {format(item.dataHora, 'dd/MM/yyyy')}
-            </Text>
+            <Text className="text-lg font-bold">{format(item.dataHora, 'dd/MM/yyyy')}</Text>
           </View>
         </View>
         <View className="flex-row justify-between">
           <View className="flex-row">
             <Text className="text-lg">Categoria: </Text>
-            <Text className="text-lg font-bold">
-              {item.categoria?.descricao}
-            </Text>
+            <Text className="text-lg font-bold">{item.categoria?.descricao}</Text>
           </View>
         </View>
         <View className="flex-row">
@@ -89,10 +84,7 @@ export default function Inspection() {
 
   return (
     <>
-      <SearchBar
-        placeholder="Digite o id da vistoria"
-        onSearch={handleSearch}
-      />
+      <SearchBar placeholder="Digite o id da vistoria" onSearch={handleSearch} />
       <View className="px-10">
         <View className="my-3 flex-row items-center justify-between">
           <Text className="font-bold text-xl">Lista de vistorias</Text>
@@ -107,9 +99,7 @@ export default function Inspection() {
           showsVerticalScrollIndicator={false}
           className="max-h-[85%]"
           contentContainerStyle={{ paddingBottom: 80 }}
-          refreshControl={
-            <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
-          }
+          refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} />}
         />
       </View>
     </>

@@ -1,5 +1,6 @@
-import TabBar from '@/components/tab-bar'
 import { Tabs } from 'expo-router'
+
+import TabBar from '@/components/tab-bar'
 
 export default function TabsLayout() {
   return (
@@ -8,7 +9,7 @@ export default function TabsLayout() {
         name="home"
         options={{
           title: 'Home',
-          headerShown: false,
+          headerShown: false
         }}
       />
 
@@ -17,9 +18,9 @@ export default function TabsLayout() {
         options={{
           title: 'Vistorias',
           headerStyle: {
-            backgroundColor: '#000',
+            backgroundColor: '#000'
           },
-          headerTintColor: '#fff',
+          headerTintColor: '#fff'
         }}
       />
     </Tabs>

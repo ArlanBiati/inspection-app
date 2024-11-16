@@ -1,5 +1,5 @@
 import { api } from '@/config/axios.config'
-import { Environments } from '@/types/inspections.type'
+import { type Environments } from '@/types/inspections.type'
 
 export class EnvironmentsService {
   private readonly endpoint: string

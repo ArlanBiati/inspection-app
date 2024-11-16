@@ -1,10 +1,11 @@
-import HeaderDashboard from '@/components/header-dashboard'
-import SearchBar from '@/components/search-bar'
-import { CustomersService } from '@/services/customers.service'
-import { CustomersProps } from '@/types/customers.type'
 import { useQuery } from '@tanstack/react-query'
 import { FlatList, RefreshControl, Text, View } from 'react-native'
 import { useState, useEffect } from 'react'
+
+import HeaderDashboard from '@/components/header-dashboard'
+import SearchBar from '@/components/search-bar'
+import { CustomersService } from '@/services/customers.service'
+import { type CustomersProps } from '@/types/customers.type'
 import Card from '@/components/card'
 
 export default function Home() {
@@ -12,20 +13,18 @@ export default function Home() {
   const {
     data: customers,
     isRefetching,
-    refetch,
+    refetch
   } = useQuery({
     queryKey: ['customers-list'],
     queryFn: () => customersService.findAllCustomers(),
-    refetchInterval: 1000,
+    refetchInterval: 1000
   })
 
   const filteredCustomersWithAllData = customers?.filter((customer) => {
     return customer.nome && customer.email && customer.telefone
   })
 
-  const [filteredCustomers, setFilteredCustomers] = useState<CustomersProps[]>(
-    filteredCustomersWithAllData || []
-  )
+  const [filteredCustomers, setFilteredCustomers] = useState<CustomersProps[]>(filteredCustomersWithAllData || [])
 
   const handleSearch = (query: string) => {
     if (query === '') {
@@ -64,9 +63,7 @@ export default function Home() {
         <View className="flex-row">
           <Text className="text-lg">Email: </Text>
           <Text className="text-lg font-bold">
-            {item.email.length > 25
-              ? `${item.email.slice(0, 25)}...`
-              : item.email}
+            {item.email.length > 25 ? `${item.email.slice(0, 25)}...` : item.email}
           </Text>
         </View>
       </Card>
@@ -76,10 +73,7 @@ export default function Home() {
   return (
     <>
       <HeaderDashboard />
-      <SearchBar
-        placeholder="Digite o nome do cliente..."
-        onSearch={handleSearch}
-      />
+      <SearchBar placeholder="Digite o nome do cliente..." onSearch={handleSearch} />
       <View className="px-10">
         <View className="my-3">
           <Text className="font-bold text-xl">Lista de clientes</Text>
@@ -91,9 +85,7 @@ export default function Home() {
           showsVerticalScrollIndicator={false}
           className="max-h-[85%]"
           contentContainerStyle={{ paddingBottom: 180 }}
-          refreshControl={
-            <RefreshControl refreshing={isRefetching} onRefresh={refetch} />
-          }
+          refreshControl={<RefreshControl refreshing={isRefetching} onRefresh={refetch} />}
         />
       </View>
     </>

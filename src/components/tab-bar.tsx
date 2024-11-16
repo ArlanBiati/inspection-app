@@ -1,19 +1,12 @@
-import { LayoutChangeEvent, View } from 'react-native'
-import { BottomTabBarProps } from '@react-navigation/bottom-tabs'
-import TabBarButton from './tab-bar-button'
+import { type LayoutChangeEvent, View } from 'react-native'
+import { type BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { useCallback, useState } from 'react'
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from 'react-native-reanimated'
+import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 import { useFocusEffect } from 'expo-router'
 
-export default function TabBar({
-  state,
-  descriptors,
-  navigation,
-}: BottomTabBarProps) {
+import TabBarButton from './tab-bar-button'
+
+export default function TabBar({ state, descriptors, navigation }: BottomTabBarProps) {
   const [dimensions, setDimensions] = useState({ height: 20, width: 100 })
 
   const buttonWidth = dimensions.width / state.routes.length
@@ -21,7 +14,7 @@ export default function TabBar({
   const onTabbarLayout = (e: LayoutChangeEvent) => {
     setDimensions({
       height: e.nativeEvent.layout.height,
-      width: e.nativeEvent.layout.width,
+      width: e.nativeEvent.layout.width
     })
   }
 
@@ -29,14 +22,14 @@ export default function TabBar({
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: tabPositionX.value }],
+      transform: [{ translateX: tabPositionX.value }]
     }
   })
 
   useFocusEffect(
     useCallback(() => {
       tabPositionX.value = withSpring(buttonWidth * state.index, {
-        duration: 1500,
+        duration: 1500
       })
     }, [state.index, buttonWidth])
   )
@@ -55,8 +48,8 @@ export default function TabBar({
             borderRadius: 30,
             marginHorizontal: 12,
             height: dimensions.height - 15,
-            width: buttonWidth - 25,
-          },
+            width: buttonWidth - 25
+          }
         ]}
       />
 
@@ -66,19 +59,19 @@ export default function TabBar({
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
-            ? options.title
-            : route.name
+              ? options.title
+              : route.name
 
         const isFocused = state.index === index
 
         const onPress = () => {
           tabPositionX.value = withSpring(buttonWidth * index, {
-            duration: 1500,
+            duration: 1500
           })
           const event = navigation.emit({
             type: 'tabPress',
             target: route.key,
-            canPreventDefault: true,
+            canPreventDefault: true
           })
 
           if (!isFocused && !event.defaultPrevented) {
@@ -89,7 +82,7 @@ export default function TabBar({
         const onLongPress = () => {
           navigation.emit({
             type: 'tabLongPress',
-            target: route.key,
+            target: route.key
           })
         }
 

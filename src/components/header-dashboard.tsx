@@ -3,6 +3,7 @@ import { Link } from 'expo-router'
 import { Image, Pressable, SafeAreaView, Text, View } from 'react-native'
 import { useUser, useAuth } from '@clerk/clerk-expo'
 import { useState } from 'react'
+
 import { Loading } from './loading'
 
 export default function HeaderDashboard() {
@@ -17,7 +18,6 @@ export default function HeaderDashboard() {
 
     try {
       signOut()
-    } catch (error) {
     } finally {
       setIsLoading(false)
     }
@@ -49,10 +49,7 @@ export default function HeaderDashboard() {
             </View>
             <View>
               <Link href="/login">
-                <Pressable
-                  className="flex-col items-center gap-2"
-                  onPress={() => logout()}
-                >
+                <Pressable className="flex-col items-center gap-2" onPress={() => logout()}>
                   <Feather name="power" color="#fff" size={30} />
                   <Text className="text-white text-lg">Logout</Text>
                 </Pressable>

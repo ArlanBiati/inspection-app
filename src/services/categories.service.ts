@@ -1,5 +1,5 @@
 import { api } from '@/config/axios.config'
-import { Categories } from '@/types/inspections.type'
+import { type Categories } from '@/types/inspections.type'
 
 export class CategoriesService {
   private readonly endpoint: string

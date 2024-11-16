@@ -1,3 +1,8 @@
+import { useMutation, useQueries } from '@tanstack/react-query'
+import { router } from 'expo-router'
+import { useForm } from 'react-hook-form'
+import { Alert, ScrollView, Text, View } from 'react-native'
+
 import Button from '@/components/button'
 import { Loading } from '@/components/loading'
 import Radio from '@/components/radio'
@@ -7,10 +12,6 @@ import { AnomailiesService } from '@/services/anomalies.service'
 import { CategoriesService } from '@/services/categories.service'
 import { EnvironmentsService } from '@/services/environments.service'
 import { InspectionsService } from '@/services/inspections.service'
-import { useMutation, useQueries } from '@tanstack/react-query'
-import { router } from 'expo-router'
-import { useForm } from 'react-hook-form'
-import { Alert, ScrollView, Text, View } from 'react-native'
 
 export default function CreateInspection() {
   const environmentsService = new EnvironmentsService()
@@ -22,88 +23,77 @@ export default function CreateInspection() {
     { data: environments, isLoading: environmentsLoading },
     { data: anomalies, isLoading: anomaliesLoading },
     { data: anomaliesTypes, isLoading: anomaliesTypesLoading },
-    { data: categories, isLoading: categoriesLoading },
+    { data: categories, isLoading: categoriesLoading }
   ] = useQueries({
     queries: [
       {
         queryKey: ['environments-list'],
-        queryFn: () => environmentsService.findAllEnvironments(),
+        queryFn: () => environmentsService.findAllEnvironments()
       },
       {
         queryKey: ['anomalies-list'],
-        queryFn: () => anomaliesService.findAllAnomalies(),
+        queryFn: () => anomaliesService.findAllAnomalies()
       },
       {
         queryKey: ['anomalies-types-list'],
-        queryFn: () => anomaliesService.findAllAnomaliesTypes(),
+        queryFn: () => anomaliesService.findAllAnomaliesTypes()
       },
       {
         queryKey: ['categories-list'],
-        queryFn: () => categoriesService.findAllCategories(),
-      },
-    ],
+        queryFn: () => categoriesService.findAllCategories()
+      }
+    ]
   })
 
-  const isLoading =
-    environmentsLoading ||
-    anomaliesLoading ||
-    anomaliesTypesLoading ||
-    categoriesLoading
+  const isLoading = environmentsLoading || anomaliesLoading || anomaliesTypesLoading || categoriesLoading
 
   const { mutate } = useMutation({
     mutationFn: inspectionsService.createInspection,
-    onSuccess: (data) => {
+    onSuccess: () => {
       Alert.alert('Sucesso!', 'Sua vistoria foi cadastrada com sucesso.', [
         {
           text: 'OK',
-          onPress: () => router.push('/(tabs)/inspection'),
-        },
+          onPress: () => router.push('/(tabs)/inspection')
+        }
       ])
     },
     onError: (error) => {
       alert(`${error.message}`)
-    },
+    }
   })
 
   const transformedEnvironments = environments?.map((environment) => ({
     label: environment.nome,
-    value: environment.id.toString(),
+    value: environment.id.toString()
   }))
 
   const transformedAnomalies = anomalies?.map((anomaly) => ({
     label: anomaly.nome,
-    value: anomaly.id.toString(),
+    value: anomaly.id.toString()
   }))
 
   const transformedAnomaliesTypes = anomaliesTypes?.map((anomalyType) => ({
     label: anomalyType.descricao,
-    value: anomalyType.enum,
+    value: anomalyType.enum
   }))
 
   const transformedCategories = categories?.map((category) => ({
     label: category.descricao,
-    value: category.enum,
+    value: category.enum
   }))
 
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm()
 
   const radioOptions = [
     { label: 'Sim', value: true },
-    { label: 'Não', value: false },
+    { label: 'Não', value: false }
   ]
 
-  function handleCreateInspection({
-    environmentId,
-    hasAnamoly,
-    anomalyId,
-    anomalyType,
-    category,
-    observation,
-  }: any) {
+  function handleCreateInspection({ environmentId, hasAnamoly, anomalyId, anomalyType, category, observation }: any) {
     const formData = {
       areaVistoriaInterna_id: Number(environmentId),
       dataHora: new Date(),
@@ -111,7 +101,7 @@ export default function CreateInspection() {
       anomalia_id: Number(anomalyId),
       tipo: anomalyType,
       categoria: category,
-      observacao: observation,
+      observacao: observation
     }
 
     mutate(formData)
@@ -123,7 +113,7 @@ export default function CreateInspection() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
-          paddingBottom: 30,
+          paddingBottom: 30
         }}
       >
         <View className="gap-4 ">
@@ -133,7 +123,7 @@ export default function CreateInspection() {
             formProps={{
               control,
               name: 'environmentId',
-              rules: { required: 'O seleção é obrigatório' },
+              rules: { required: 'O seleção é obrigatório' }
             }}
             options={transformedEnvironments!}
             error={errors.environmentId?.message}
@@ -144,7 +134,7 @@ export default function CreateInspection() {
             formProps={{
               control,
               name: 'hasAnamoly',
-              rules: { required: 'A seleção é obrigatória' },
+              rules: { required: 'A seleção é obrigatória' }
             }}
             options={radioOptions}
             error={errors.hasAnamoly?.message}
@@ -156,7 +146,7 @@ export default function CreateInspection() {
             formProps={{
               control,
               name: 'anomalyId',
-              rules: { required: 'A seleção é obrigatória' },
+              rules: { required: 'A seleção é obrigatória' }
             }}
             options={transformedAnomalies!}
             error={errors.anomalyId?.message}
@@ -168,7 +158,7 @@ export default function CreateInspection() {
             formProps={{
               control,
               name: 'anomalyType',
-              rules: { required: 'A seleção é obrigatória' },
+              rules: { required: 'A seleção é obrigatória' }
             }}
             options={transformedAnomaliesTypes!}
             error={errors.anomalyType?.message}
@@ -180,7 +170,7 @@ export default function CreateInspection() {
             formProps={{
               control,
               name: 'category',
-              rules: { required: 'A seleção é obrigatória' },
+              rules: { required: 'A seleção é obrigatória' }
             }}
             options={transformedCategories!}
             error={errors.category?.message}
@@ -191,21 +181,18 @@ export default function CreateInspection() {
             formProps={{
               name: 'observation',
               control,
-              rules: { required: 'O campo é obrigatória' },
+              rules: { required: 'O campo é obrigatória' }
             }}
             inputProps={{
               autoCapitalize: 'none',
-              placeholder: 'Descreva...',
+              placeholder: 'Descreva...'
             }}
             error={errors.observation?.message}
           />
         </View>
       </ScrollView>
       <View className="mt-7">
-        <Button
-          title="Cadastrar"
-          onPress={handleSubmit(handleCreateInspection)}
-        />
+        <Button title="Cadastrar" onPress={handleSubmit(handleCreateInspection)} />
       </View>
     </View>
   )

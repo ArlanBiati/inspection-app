@@ -1,5 +1,5 @@
 import { api } from '@/config/axios.config'
-import { Anomalies, AnomaliesTypes } from '@/types/inspections.type'
+import { type Anomalies, type AnomaliesTypes } from '@/types/inspections.type'
 
 export class AnomailiesService {
   private readonly endpoint: string

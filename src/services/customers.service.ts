@@ -1,5 +1,5 @@
 import { api } from '@/config/axios.config'
-import { CustomersProps } from '@/types/customers.type'
+import { type CustomersProps } from '@/types/customers.type'
 
 export class CustomersService {
   private readonly endpoint: string
@@ -9,9 +9,7 @@ export class CustomersService {
   }
 
   async findAllCustomers() {
-    const response = await api.get<CustomersProps[] | []>(
-      `${this.endpoint}/all`
-    )
+    const response = await api.get<CustomersProps[] | []>(`${this.endpoint}/all`)
     return response.data
   }
 }

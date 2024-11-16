@@ -4,15 +4,9 @@ import { ClerkProvider, useAuth } from '@clerk/clerk-expo'
 import { Slot, useRouter, useSegments } from 'expo-router'
 import { useEffect } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import {
-  focusManager,
-  onlineManager,
-  QueryCache,
-  QueryClient,
-  QueryClientProvider,
-} from '@tanstack/react-query'
+import { focusManager, onlineManager, QueryCache, QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import NetInfo from '@react-native-community/netinfo'
-import { AppState, AppStateStatus } from 'react-native'
+import { AppState, type AppStateStatus } from 'react-native'
 
 const publishableKey = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!
 
@@ -36,9 +30,10 @@ const tokenCache = {
     try {
       return SecureStore.setItemAsync(key, value)
     } catch (err) {
+      console.log(err)
       return
     }
-  },
+  }
 }
 
 const client = new QueryClient({ queryCache: new QueryCache() })

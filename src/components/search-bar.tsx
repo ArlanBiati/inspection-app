@@ -23,10 +23,7 @@ export default function SearchBar({ placeholder, onSearch }: SearchBarProps) {
         className="flex-1 p-4 bg-gray-100 rounded-lg text-gray-700"
       />
 
-      <TouchableOpacity
-        onPress={handleSearch}
-        className="ml-3 p-3 bg-black rounded-lg"
-      >
+      <TouchableOpacity onPress={handleSearch} className="ml-3 p-3 bg-black rounded-lg">
         <Feather name="search" size={24} color="#E1E1E6" />
       </TouchableOpacity>
     </View>

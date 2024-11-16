@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { Link } from 'expo-router'
 import { useForm } from 'react-hook-form'
 import { useSignIn } from '@clerk/clerk-expo'
-import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, Text, type TextInput, TouchableOpacity, View } from 'react-native'
 
 import Input from '@/components/input'
 import Button from '@/components/button'
@@ -13,7 +13,7 @@ export default function Login() {
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors }
   } = useForm()
   const passwordRef = useRef<TextInput>(null)
 
@@ -26,7 +26,7 @@ export default function Login() {
     try {
       const { createdSessionId, status } = await signIn?.create({
         identifier: email,
-        password,
+        password
       })
 
       if (status === 'complete') {
@@ -42,10 +42,7 @@ export default function Login() {
   return (
     <View className="flex-1 justify-center p-5">
       <View className="items-center">
-        <Image
-          className="ml-6 mb-20"
-          source={require('../../../assets/images/inspection-logo.png')}
-        />
+        <Image className="ml-6 mb-20" source={require('../../../assets/images/inspection-logo.png')} />
       </View>
 
       <Text className="text-center font-bold text-2xl mb-4">Acessar conta</Text>
@@ -60,15 +57,15 @@ export default function Login() {
               required: 'Email é obrigatório',
               pattern: {
                 value: /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+$/,
-                message: 'Email inválido',
-              },
-            },
+                message: 'Email inválido'
+              }
+            }
           }}
           inputProps={{
             autoCapitalize: 'none',
             placeholder: 'Digite seu email',
             returnKeyType: 'next',
-            onSubmitEditing: () => passwordRef.current?.focus(),
+            onSubmitEditing: () => passwordRef.current?.focus()
           }}
         />
         <InputPassword
@@ -78,29 +75,23 @@ export default function Login() {
           formProps={{
             name: 'password',
             control,
-            rules: { required: 'Senha é obrigatório' },
+            rules: { required: 'Senha é obrigatório' }
           }}
           inputProps={{
             autoCapitalize: 'none',
             placeholder: 'Digite sua senha',
             returnKeyType: 'send',
             secureTextEntry: true,
-            onSubmitEditing: handleSubmit(handleSignIn),
+            onSubmitEditing: handleSubmit(handleSignIn)
           }}
         />
       </View>
-      <Button
-        title="Acessar"
-        loading={isLoading}
-        disabled={isLoading}
-        onPress={handleSubmit(handleSignIn)}
-      />
+      <Button title="Acessar" loading={isLoading} disabled={isLoading} onPress={handleSubmit(handleSignIn)} />
 
       <Link href="/register" asChild>
         <TouchableOpacity className="m-2 items-center" activeOpacity={0.5}>
           <Text className="color-slate-500">
-            Ainda não possui uma conta?{' '}
-            <Text className="color-black font-bold">Cadastre-se</Text>
+            Ainda não possui uma conta? <Text className="color-black font-bold">Cadastre-se</Text>
           </Text>
         </TouchableOpacity>
       </Link>
